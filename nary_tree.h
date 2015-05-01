@@ -21,7 +21,6 @@ typedef struct {
 } nAryTree;
 
 void initializeTree(nAryTree *t, size_t sizeInfo, void *rootInfo);
-
 void addChild(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info)(void *, void *));
 
 Node *create_child(size_t t, void *info);
