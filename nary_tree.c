@@ -1,9 +1,13 @@
 #include "nary_tree.h"
 
-void initializeTree(nAryTree *t, size_t sizeInfo)
+int initializeTree(nAryTree **t, size_t sizeInfo)
 {
-	t->sizeInfo = sizeInfo;
+	if(*t = (nAryTree*)malloc(sizeof(nAryTree))==NULL)
+			return ERROR;
 
+	t->sizeInfo = sizeInfo;
+	
+	return SUCCESS;
 }
 
 void addChild(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info)(void *, void *));
