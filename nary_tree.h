@@ -2,6 +2,7 @@
 
 #define SUCCESS 0
 #define ERROR 1
+#define ERROR_PARENT_NOT_FOUND 2
 
 struct ListNode;
 
@@ -21,7 +22,8 @@ typedef struct {
 } nAryTree;
 
 void initializeTree(nAryTree *t, size_t sizeInfo, void *rootInfo);
-void addChild(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info)(void *, void *));
+void add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info)(void *, void *))
 
+Node *find_node(Node *n, void *info, int (*compare_info)(void *, void *))
 Node *create_child(size_t t, void *info);
 ListNode *create_list_node();
