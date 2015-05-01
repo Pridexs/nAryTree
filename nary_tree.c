@@ -3,10 +3,10 @@
 int initializeTree(nAryTree **t, size_t sizeInfo)
 {
 	if(*t = (nAryTree*)malloc(sizeof(nAryTree))==NULL)
-			return ERROR;
+		return ERROR;
 
 	t->sizeInfo = sizeInfo;
-	
+
 	return SUCCESS;
 }
 
@@ -30,7 +30,6 @@ Node *create_child(size_t t, void *info)
 	}
 	memcpy(n->info, info, t);
 
-	n->nChilds = 0;
 	n->myChildList->next = NULL;
 	n->myChildList->child = NULL;
 
