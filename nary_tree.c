@@ -168,15 +168,19 @@ int remove_node(nAryTree *t, void *info, void *removed, int (*compare_info)(void
         ln = find_child_list(t->root, NULL, info, compare_info);
 	if(ln == NULL)
 		return ERROR;
-	ListNode *l_prev = NULL;
-	while(ln->child != n_aux)
+	ListNode *l_aux = NULL;
+	while(ln->next->child != n_aux)
 	{
-		l_prev = ln;
 		ln = ln->next;
 	}
-	l_prev->next = ln->next;
-	free(ln->child);
-	free(ln);
+	l_aux = ln->next;
+	ln->next= l_aux->child->myChildList->next;
+	/* all childs of the removed node are now one lvl closer to the root*/
+	while(ln->next != NULL)
+        ln = ln->next;
+    ln->next = l_aux->next;
+	free(l_aux->child);
+	free(l_aux);
 	return SUCCESS;
 }
 
