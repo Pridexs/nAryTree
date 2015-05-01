@@ -10,7 +10,7 @@ int initializeTree(nAryTree *t, size_t sizeInfo, void *root_info)
 }
 
 /*******************************************************
-* Finds a node with the same infomration as infoParent * 
+* Finds a node with the same infomration as infoParent *
 * and adds a child to that node                        *
 ********************************************************/
 int add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info)(void *, void *))
@@ -32,7 +32,7 @@ int add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info
             return ERROR;
 
         n->myChildList->child = create_child(t->sizeInfo, infoChild);
-        if (n->myChildList->child == NULL) 
+        if (n->myChildList->child == NULL)
         {
             free(n->myChildList);
             n->myChildList = NULL;
@@ -52,7 +52,7 @@ int add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info
             return ERROR;
 
         ln->next->child = create_child(t->sizeInfo, infoChild);
-        if(ln->next->child == NULL) 
+        if(ln->next->child == NULL)
         {
             free(ln->next);
             ln->next = NULL;
@@ -63,16 +63,16 @@ int add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info
     return SUCCESS;
 }
 
-Node *create_child(size_t t, void *info) 
-{ 
+Node *create_child(size_t t, void *info)
+{
     Node *n;
     n = (Node*) malloc(sizeof(Node));
 
-    if (n == NULL) 
+    if (n == NULL)
         return NULL;
 
     n->info = malloc(t);
-    if (n->info == NULL) 
+    if (n->info == NULL)
     {
         free(n);
         return NULL;
@@ -105,9 +105,9 @@ ListNode *create_list_node()
 Node *find_node(Node *n, void *info, int (*compare_info)(void *, void *))
 {
     // do we need to add error check if n = null ?
-    
+
     // If the node has what we want, return its pointer
-    if (compare_info(n->info, info) == 1) 
+    if (compare_info(n->info, info) == 1)
     {
         return n;
     }
@@ -121,7 +121,7 @@ Node *find_node(Node *n, void *info, int (*compare_info)(void *, void *))
         n_aux = find_node(n_aux, info, compare_info);
 
         // If the function returned something other than NULL, it found the node with info.
-        if (n_aux != NULL) 
+        if (n_aux != NULL)
         {
             return n_aux;
         }
@@ -140,6 +140,7 @@ void *print_pre_order(nAryTree *t, void (*print_info)(void *))
 {
     Node *n = t->root;
     print_pre_order_nodes(n, print_info);
+    return NULL;
 }
 
 void *print_pre_order_nodes(Node *n, void (*print_info)(void *))
@@ -153,16 +154,18 @@ void *print_pre_order_nodes(Node *n, void (*print_info)(void *))
         print_pre_order_nodes(n_aux, print_info);
         ln = ln->next;
     }
+    return NULL;
 }
 
-int remove_node(nAryTree *t, void *info, void *removed, int (*compare_info)(void*,void*)))
+int remove_node(nAryTree *t, void *info, void *removed, int (*compare_info)(void*,void*))
 {
 	Node *n_aux = find_node(t->root, info, compare_info);
 	if(n_aux == NULL)
 		return ERROR_NODE_NOT_FOUND;
 	memcpy(removed, n_aux, t->sizeInfo);
+	ListNode *ln;
 	if (n_aux != t->root)
-		ListNode *ln = find_child_list(t->root, NULL, info, compare_info);
+        ln = find_child_list(t->root, NULL, info, compare_info);
 	if(ln == NULL)
 		return ERROR;
 	ListNode *l_prev = NULL;
@@ -174,6 +177,7 @@ int remove_node(nAryTree *t, void *info, void *removed, int (*compare_info)(void
 	l_prev->next = ln->next;
 	free(ln->child);
 	free(ln);
+	return SUCCESS;
 }
 
 ListNode *find_child_list(Node *n, ListNode *ln, void *info,int(*compare_info)(void*, void*))
@@ -181,16 +185,16 @@ ListNode *find_child_list(Node *n, ListNode *ln, void *info,int(*compare_info)(v
 	/*the first time that this function is executed ln is passed as a
 	  NULL pointer*/
 	/*a good option before trying to find the list that the node is in,
-	  is to verify if the node is the rootof the tree, if this verification 
+	  is to verify if the node is the root of the tree, if this verification
 	  wasnt made, this function will return NULL if the node is root or
 	  it doesnt even exists.*/
-	if (compare_info(n->info, info) == 0) 
+	if (compare_info(n->info, info) == 0)
     {
         return ln;
     }
 
     // Else, check its childs
-    ListNode *ln = n->myChildList;
+    ln = n->myChildList;
     while(ln != NULL)
     {
         Node *n_aux = ln->child;
@@ -198,7 +202,7 @@ ListNode *find_child_list(Node *n, ListNode *ln, void *info,int(*compare_info)(v
         n_aux = find_node(n_aux, info, compare_info);
 
         // If the function returned something other than NULL, it found the node with info.
-        if (n_aux != NULL) 
+        if (n_aux != NULL)
         {
             return ln;
         }
