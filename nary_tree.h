@@ -1,21 +1,24 @@
 #include <stdlib.h>
 
+#define SUCCESS 0
+#define ERROR 1
+
 struct ListNode;
 
 typedef struct Node {
     void *info;
     struct ListNode myChildList;
-} Node
+} Node;
 
 typedef struct ListNode {
     Node *child;
     struct *ListNode next;
-} ListNode 
+} ListNode;
 
 typedef struct {
     size_t sizeInfo;
     Node *root;
-} nAryTree
+} nAryTree;
 
 void initializeTree(nAryTree *t, size_t sizeInfo, void *rootInfo);
 
