@@ -4,26 +4,30 @@
 #define ERROR 1
 #define ERROR_PARENT_NOT_FOUND 2
 
-struct ListNode;
+struct _Node;
 
-typedef struct Node {
+typedef struct _ListNode {
+    struct _Node *child;
+    struct _ListNode *next;
+} ListNode;
+
+typedef struct _Node {
     void *info;
-    struct ListNode myChildList;
+    ListNode *myChildList;
 } Node;
 
-typedef struct ListNode {
-    Node *child;
-    struct *ListNode next;
-} ListNode;
 
 typedef struct {
     size_t sizeInfo;
     Node *root;
 } nAryTree;
 
-void initializeTree(nAryTree *t, size_t sizeInfo, void *rootInfo);
-void add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info)(void *, void *))
+int initializeTree(nAryTree *t, size_t sizeInfo, void *root_info);
+int add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info)(void *, void *));
 
-Node *find_node(Node *n, void *info, int (*compare_info)(void *, void *))
+void *print_pre_order(nAryTree *t, void (*print_info)(void *));
+void *print_pre_order_nodes(Node *n, void (*print_info)(void *));
+
+Node *find_node(Node *n, void *info, int (*compare_info)(void *, void *));
 Node *create_child(size_t t, void *info);
 ListNode *create_list_node();

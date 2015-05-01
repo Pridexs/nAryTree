@@ -1,6 +1,8 @@
 #include "nary_tree.h"
 
-int initializeTree(nAryTree *t, size_t sizeInfo, void *rootInfo)
+#include <string.h>
+
+int initializeTree(nAryTree *t, size_t sizeInfo, void *root_info)
 {
     t->sizeInfo = sizeInfo;
     t->root = create_child(sizeInfo, root_info);
@@ -11,9 +13,9 @@ int initializeTree(nAryTree *t, size_t sizeInfo, void *rootInfo)
 * Finds a node with the same infomration as infoParent * 
 * and adds a child to that node                        *
 ********************************************************/
-void add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info)(void *, void *))
+int add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_info)(void *, void *))
 {
-    ListNode *n;
+    Node *n;
 
     n = find_node(t->root, infoParent, compare_info);
 
@@ -33,6 +35,7 @@ void add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_inf
         if (n->myChildList->child == NULL) 
         {
             free(n->myChildList);
+            n->myChildList = NULL;
             return ERROR;
         }
     }
@@ -52,11 +55,12 @@ void add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_inf
         if(ln->next->child == NULL) 
         {
             free(ln->next);
+            ln->next = NULL;
             return ERROR;
         }
     }
 
-    return SUCCES;
+    return SUCCESS;
 }
 
 Node *create_child(size_t t, void *info) 
@@ -127,4 +131,26 @@ Node *find_node(Node *n, void *info, int (*compare_info)(void *, void *))
 
     // If the function failed to find the node, return null.
     return NULL;
+}
+
+/*****************************************
+* Prints the tree using pre-order method *
+******************************************/
+void *print_pre_order(nAryTree *t, void (*print_info)(void *))
+{
+    Node *n = t->root;
+    print_pre_order_nodes(n, print_info);
+}
+
+void *print_pre_order_nodes(Node *n, void (*print_info)(void *))
+{
+    print_info(n->info);
+
+    ListNode *ln = n->myChildList;
+    while(ln != NULL)
+    {
+        Node *n_aux = ln->child;
+        print_pre_order_nodes(n_aux, print_info);
+        ln = ln->next;
+    }
 }
