@@ -154,3 +154,58 @@ void *print_pre_order_nodes(Node *n, void (*print_info)(void *))
         ln = ln->next;
     }
 }
+
+int remove_node(nAryTree *t, void *info, void *removed, int (*compare_info)(void*,void*)))
+{
+	Node *n_aux = find_node(t->root, info, compare_info);
+	if(n_aux == NULL)
+		return ERROR_NODE_NOT_FOUND;
+	memcpy(removed, n_aux, t->sizeInfo);
+	if (n_aux != t->root)
+		ListNode *ln = find_child_list(t->root, NULL, info, compare_info);
+	if(ln == NULL)
+		return ERROR;
+	ListNode *l_prev = NULL;
+	while(ln->child != n_aux)
+	{
+		l_prev = ln;
+		ln = ln->next;
+	}
+	l_prev->next = ln->next;
+	free(ln->child);
+	free(ln);
+}
+
+ListNode *find_child_list(Node *n, ListNode *ln, void *info,int(*compare_info)(void*, void*))
+{
+	/*the first time that this function is executed ln is passed as a
+	  NULL pointer*/
+	/*a good option before trying to find the list that the node is in,
+	  is to verify if the node is the rootof the tree, if this verification 
+	  wasnt made, this function will return NULL if the node is root or
+	  it doesnt even exists.*/
+	if (compare_info(n->info, info) == 0) 
+    {
+        return ln;
+    }
+
+    // Else, check its childs
+    ListNode *ln = n->myChildList;
+    while(ln != NULL)
+    {
+        Node *n_aux = ln->child;
+
+        n_aux = find_node(n_aux, info, compare_info);
+
+        // If the function returned something other than NULL, it found the node with info.
+        if (n_aux != NULL) 
+        {
+            return ln;
+        }
+        // Else, look for in the next child
+        ln = ln->next;
+    }
+
+    // If the function failed to find the list, return null.
+    return NULL;
+}

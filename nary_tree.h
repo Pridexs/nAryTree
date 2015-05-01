@@ -3,6 +3,7 @@
 #define SUCCESS 0
 #define ERROR 1
 #define ERROR_PARENT_NOT_FOUND 2
+#define ERROR_NODE_NOT_FOUND 3
 
 struct _Node;
 
