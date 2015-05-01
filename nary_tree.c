@@ -30,8 +30,11 @@ void add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_inf
             return ERROR;
 
         n->myChildList->child = create_child(t->sizeInfo, infoChild);
-        if (n->myChildList->child == NULL)
+        if (n->myChildList->child == NULL) 
+        {
+            free(n->myChildList);
             return ERROR;
+        }
     }
     // Else, we need to find the position where to insert
     else
@@ -46,8 +49,11 @@ void add_child(nAryTree *t, void *infoParent, void *infoChild, int (*compare_inf
             return ERROR;
 
         ln->next->child = create_child(t->sizeInfo, infoChild);
-        if(ln->next->child == NULL)
+        if(ln->next->child == NULL) 
+        {
+            free(ln->next);
             return ERROR;
+        }
     }
 
     return SUCCES;
