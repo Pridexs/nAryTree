@@ -8,7 +8,6 @@ typedef struct Node {
 } Node
 
 typedef struct ListNode {
-    Node *this;
     Node *child;
     struct *ListNode next;
 } ListNode 
