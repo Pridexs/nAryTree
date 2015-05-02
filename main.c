@@ -31,11 +31,22 @@ int main()
 	infoChild = 2;
 	add_child(&tree, &root, &infoChild, compare_int);
 
-	root = 1;
 	infoChild = 3;
 	add_child(&tree, &root, &infoChild, compare_int);
 
+    root = 2;
+    infoChild = 4;
+    add_child(&tree, &root, &infoChild, compare_int);
+
 	print_pre_order(&tree, print_integer);
+    
+    int nodeThatShallBeRemoved = 2;
+	
+	Node removed;
+	
+	remove_node(&tree,&nodeThatShallBeRemoved,&removed, compare_int);
+
+    print_pre_order(&tree, print_integer);
 
 	return 0;
 }
