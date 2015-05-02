@@ -171,14 +171,14 @@ int remove_node(nAryTree *t, void *info, void *removed, int (*compare_info)(void
         ln = find_child_list(t->root, NULL, info, compare_info);
 	if(ln == NULL)
 		return ERROR;
-	printf(">>%d<<\n", *((int*)(ln->child->info))); /*find_list has returned the right list*/
+	
 	ListNode *l_aux = NULL;
 	/*if the node to be removed is in the direct root's myChildList first position, the element ListNode 
 	element isnt deleted, his childs are reallocated to the end of the root's childs list and then its child is set NULL*/
 	if(ln->child != n_aux)
     {
         while(ln->next->child != n_aux)
-        {printf(">>6\n");
+        {
             ln = ln->next;
         }
         l_aux = ln->next;
