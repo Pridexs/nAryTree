@@ -150,8 +150,11 @@ void *print_pre_order_nodes(Node *n, void (*print_info)(void *))
     ListNode *ln = n->myChildList;
     while(ln != NULL)
     {
-        Node *n_aux = ln->child;
-        print_pre_order_nodes(n_aux, print_info);
+    	if(ln->child != NULL)
+        {
+            Node *n_aux = ln->child;
+            print_pre_order_nodes(n_aux, print_info);
+        }
         ln = ln->next;
     }
     return NULL;
@@ -170,18 +173,34 @@ int remove_node(nAryTree *t, void *info, void *removed, int (*compare_info)(void
 		return ERROR;
 	printf(">>%d<<\n", *((int*)(ln->child->info))); /*find_list has returned the right list*/
 	ListNode *l_aux = NULL;
-	while(ln->next->child != n_aux)
-	{
-		ln = ln->next;
-	}
-	l_aux = ln->next;
-	ln->next= l_aux->child->myChildList->next;
-	/* all childs of the removed node are now one lvl closer to the root*/
-	while(ln->next != NULL)
-        ln = ln->next;
-    ln->next = l_aux->next;
-	free(l_aux->child);
-	free(l_aux);
+	/*if the node to be removed is in the direct root's myChildList first position, the element ListNode 
+	element isnt deleted, his childs are reallocated to the end of the root's childs list and then its child is set NULL*/
+	if(ln->child != n_aux)
+    {
+        while(ln->next->child != n_aux)
+        {printf(">>6\n");
+            ln = ln->next;
+        }
+        l_aux = ln->next;
+        ln->next= l_aux->child->myChildList;
+        /* all childs of the removed node are now one lvl closer to the root*/
+        while(ln->next != NULL)
+            ln = ln->next;
+        ln->next = l_aux->next;
+        free(l_aux->child);
+        free(l_aux);
+    }
+    else
+    {
+        l_aux = ln->next;
+        while(l_aux->next != NULL)
+        {
+            l_aux = l_aux->next;
+        }
+        l_aux->next = ln->child->myChildList;
+        free(ln->child);
+        ln->child = NULL;
+    }
 	return SUCCESS;
 }
 
