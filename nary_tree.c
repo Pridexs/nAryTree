@@ -192,28 +192,34 @@ ListNode *find_child_list(Node *n, ListNode *ln, void *info,int(*compare_info)(v
 	  is to verify if the node is the root of the tree, if this verification
 	  wasnt made, this function will return NULL if the node is root or
 	  it doesnt even exists.*/
-	if (compare_info(n->info, info) == 0)
-    {
-        return ln;
-    }
 
-    // Else, check its childs
+    // check its childs
+    Node *n_aux;
     ln = n->myChildList;
     while(ln != NULL)
     {
-        Node *n_aux = ln->child;
+        n_aux = ln->child;
 
         n_aux = find_node(n_aux, info, compare_info);
 
         // If the function returned something other than NULL, it found the node with info.
         if (n_aux != NULL)
         {
-            return ln;
+            if(n_aux == ln->child)
+                return ln;
+            else
+            {
+                Node *temp = ln->child;
+                find_child_list(temp, ln, info,compare_info);
+                break;
+            }
         }
-        // Else, look for in the next child
-        ln = ln->next;
-    }
 
+        // Else, look for in the next child
+        ln=ln->next;
+    }
+    if(n_aux == ln->child)
+        return ln;
     // If the function failed to find the list, return null.
     return NULL;
 }
